@@ -1,12 +1,29 @@
+//Remember gradle build includes all these tasks
+//Tasks to be executed: [task ':compileJava', task ':processResources', task ':classes', task ':jar', task ':startScripts', task ':distTar', task ':distZip', task ':shadowJar', task ':startShadowScripts', task ':shadowDistTar', task ':shadowDistZip', task ':assemble', task ':compileTestJava', task ':processTestResources', task ':testClasses', task ':test', task ':check', task ':build']
+
+//This is required for the gradle build itself
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:5.2.0'
+    }
+}
+
 apply plugin: 'java'
+//This plugin is needed to create a fat jar
+apply plugin: 'com.github.johnrengelman.shadow'
+//application plugin makes it an executable
 apply plugin: 'application'
 
 mainClassName = 'hello.HelloWorld'
 
-jar {
-    manifest {
-        attributes(
-                'Main-Class': 'hello.HelloWorld'
-        )
-    }
+repositories {
+        mavenCentral()
+}
+
+dependencies {
+    compile group: 'joda-time', name: 'joda-time', version:'2.2'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
